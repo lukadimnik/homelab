@@ -6,4 +6,4 @@ resources:
   # - cloudflare.yaml
   - test-secret.yaml
   - tunnel-credentials.yaml
-  - ld-superuser.yaml
+  - linkding-container-env-secret.yaml
