@@ -36,3 +36,7 @@ spec:
         ingressClassname: traefik
         hosts:
          - grafana.lukadimnik.com
+        tls:
+          - secretName: grafana-tls-secret
+            hosts:
+              - grafana.lukadimnik.com
