@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: linkdinghp.lukadimnik.com
+    - host: lds.lukadimnik.com
       http:
         paths:
           - backend:
