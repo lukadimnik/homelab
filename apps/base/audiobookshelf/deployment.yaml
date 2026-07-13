@@ -28,9 +28,13 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - name: audiobookshelf-data
-              mountPath: /etc/audiobookshelf/config
+              mountPath: /config
             - name: audiobookshelf-data
-              mountPath: /etc/audiobookshelf/metadata
+              mountPath: /metadata
+            - name: audiobookshelf-data
+              mountPath: /audiobooks
+            - name: audiobookshelf-data
+              mountPath: /podcasts
       volumes:
         - name: audiobookshelf-data
           persistentVolumeClaim:
