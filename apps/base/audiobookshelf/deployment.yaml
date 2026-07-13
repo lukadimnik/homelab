@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: audiobookshelf
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: audiobookshelf
