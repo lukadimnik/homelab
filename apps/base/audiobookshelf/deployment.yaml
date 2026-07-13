@@ -26,10 +26,12 @@ spec:
             - containerPort: 3005
           securityContext:
             allowPrivilegeEscalation: false
-      #     volumeMounts:
-      #       - name: linkding-data
-      #         mountPath: /etc/linkding/data
-      # volumes:
-      #   - name: linkding-data
-      #     persistentVolumeClaim:
-      #       claimName: linkding-data-pvc
+          volumeMounts:
+            - name: audiobookshelf-config
+              mountPath: /etc/audiobookshelf/config
+            - name: audiobookshelf-metadata
+              mountPath: /etc/audiobookshelf/metadata
+      volumes:
+        - name: audiobookshelf-data
+          persistentVolumeClaim:
+            claimName: audiobookshelf-data-pvc
