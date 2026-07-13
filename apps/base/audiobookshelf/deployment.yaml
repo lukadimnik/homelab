@@ -27,9 +27,9 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
-            - name: audiobookshelf-config
+            - name: audiobookshelf-data
               mountPath: /etc/audiobookshelf/config
-            - name: audiobookshelf-metadata
+            - name: audiobookshelf-data
               mountPath: /etc/audiobookshelf/metadata
       volumes:
         - name: audiobookshelf-data
