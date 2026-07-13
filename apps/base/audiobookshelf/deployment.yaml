@@ -12,10 +12,10 @@ spec:
       labels:
         app: audiobookshelf
     spec:
-      # securityContext:
-      #   fsGroup: 1000 # user node group ID
-      #   runAsUser: 1000 # user node user ID
-      #   runAsGroup: 1000 # user node group ID
+      securityContext:
+        fsGroup: 1000 # ownership of the volume
+        runAsUser: 1000 # user node user ID
+        runAsGroup: 1000 # user node group ID
       containers:
         - name: audiobookshelf
           envFrom:
