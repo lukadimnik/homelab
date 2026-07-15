@@ -4,4 +4,5 @@ namespace: audiobookshelf
 resources:
   - ../../base/audiobookshelf/
   - configmap.yaml
-  # - cloudflare.yaml
+  - tunnel-credentials.yaml
+  - cloudflare.yaml
