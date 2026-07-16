@@ -4,4 +4,5 @@ metadata:
   name: audiobookshelf-configmap
   namespace: audiobookshelf
 data:
+  # quotes have to be used for it to work
   PORT: "3005"

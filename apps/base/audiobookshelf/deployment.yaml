@@ -24,6 +24,7 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:2.35.1
           ports:
             - containerPort: 3005
+              protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
@@ -35,6 +36,7 @@ spec:
               mountPath: /audiobooks
             - name: audiobookshelf-data
               mountPath: /podcasts
+      restartPolicy: Always
       volumes:
         - name: audiobookshelf-data
           persistentVolumeClaim:
