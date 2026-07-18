@@ -19,7 +19,6 @@ data:
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #164e63 100%);
       background-attachment: fixed;
     }
-  custom.js: ""
   bookmarks.yaml: |
     - Developer:
         - Github:
@@ -61,4 +60,3 @@ data:
     - search:
         provider: duckduckgo
         target: _blank
-  docker.yaml: ""

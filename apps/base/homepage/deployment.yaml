@@ -17,11 +17,25 @@ spec:
         fsGroup: 1000
         runAsUser: 1000
         runAsGroup: 1000
+      initContainers:
+        # Seed the writable config dir from the ConfigMap. Homepage then owns
+        # /app/config and can self-create any required file it ships (e.g.
+        # proxmox.yaml) instead of crash-looping on a read-only mount.
+        - name: copy-config
+          image: ghcr.io/gethomepage/homepage:v1.13.2
+          command:
+            - sh
+            - -c
+            - cp /config-src/* /app/config/
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /config-src
+              name: config-src
+            - mountPath: /app/config
+              name: config
       containers:
         - name: homepage
-          # envFrom:
-          #   - secretRef:
-          #       name: homepage-container-dev
           image: ghcr.io/gethomepage/homepage:v1.13.2
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
@@ -32,35 +46,11 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
-            - mountPath: /app/config/custom.js
-              name: homepage-config
-              subPath: custom.js
-            - mountPath: /app/config/custom.css
-              name: homepage-config
-              subPath: custom.css
-            - mountPath: /app/config/bookmarks.yaml
-              name: homepage-config
-              subPath: bookmarks.yaml
-            - mountPath: /app/config/docker.yaml
-              name: homepage-config
-              subPath: docker.yaml
-            - mountPath: /app/config/kubernetes.yaml
-              name: homepage-config
-              subPath: kubernetes.yaml
-            - mountPath: /app/config/services.yaml
-              name: homepage-config
-              subPath: services.yaml
-            - mountPath: /app/config/settings.yaml
-              name: homepage-config
-              subPath: settings.yaml
-            - mountPath: /app/config/widgets.yaml
-              name: homepage-config
-              subPath: widgets.yaml
-            - mountPath: /app/config/logs
-              name: logs
+            - mountPath: /app/config
+              name: config
       volumes:
-        - name: homepage-config
+        - name: config-src
           configMap:
             name: homepage
-        - name: logs
+        - name: config
           emptyDir: {}
