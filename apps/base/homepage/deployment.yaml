@@ -12,6 +12,7 @@ spec:
       labels:
         app: homepage
     spec:
+      serviceAccountName: homepage
       securityContext:
         fsGroup: 1000
         runAsUser: 1000
