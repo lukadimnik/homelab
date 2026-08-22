@@ -31,22 +31,24 @@ data:
             - abbr: CF
               href: https://dash.cloudflare.com/
   services.yaml: |
-    - Self Hosted:
+    - Personal:
         - Website:
             icon: mdi-web
             href: https://lukadimnik.com/
             description: Personal website
             ping: https://lukadimnik.com/
-        - Linkding:
-            icon: linkding.png
-            href: https://linkdinghp.lukadimnik.com/
-            description: Bookmark manager
-            ping: https://linkdinghp.lukadimnik.com/
+    - Infrastructure:
         - Grafana:
             icon: grafana.png
             href: http://grafana.lukadimnik.com/
             description: Metrics & dashboards
             ping: http://grafana.lukadimnik.com/
+    - Apps:
+        - Linkding:
+            icon: linkding.png
+            href: https://linkdinghp.lukadimnik.com/
+            description: Bookmark manager
+            ping: https://linkdinghp.lukadimnik.com/
         - Audiobookshelf:
             icon: audiobookshelf.png
             href: http://audiobookshelfhp.lukadimnik.com/
