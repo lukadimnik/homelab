@@ -22,7 +22,7 @@ spec:
         # /app/config and can self-create any required file it ships (e.g.
         # proxmox.yaml) instead of crash-looping on a read-only mount.
         - name: copy-config
-          image: ghcr.io/gethomepage/homepage:v2.0.0
+          image: ghcr.io/gethomepage/homepage:v2.1.2
           command:
             - sh
             - -c
@@ -36,7 +36,7 @@ spec:
               name: config
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:v2.0.0
+          image: ghcr.io/gethomepage/homepage:v2.1.2
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: home.lukadimnik.com
