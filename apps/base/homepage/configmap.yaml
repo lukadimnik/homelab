@@ -26,6 +26,10 @@ data:
               href: https://github.com/
   services.yaml: |
     - Self Hosted:
+        - Website:
+            icon: si-home
+            href: https://lukadimnik.com/
+            description: Personal website
         - Linkding:
             icon: linkding.png
             href: https://linkdinghp.lukadimnik.com/
