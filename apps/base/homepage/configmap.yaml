@@ -27,7 +27,7 @@ data:
   services.yaml: |
     - Self Hosted:
         - Website:
-            icon: https://lukadimnik.com/favicon.ico
+            icon: mdi-web
             href: https://lukadimnik.com/
             description: Personal website
             widget:
