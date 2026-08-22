@@ -24,9 +24,12 @@ data:
     }
   bookmarks.yaml: |
     - Developer:
-        - Github:
+        - Homelab Repo:
             - abbr: GH
-              href: https://github.com/
+              href: https://github.com/lukadimnik/homelab
+        - Cloudflare:
+            - abbr: CF
+              href: https://dash.cloudflare.com/
   services.yaml: |
     - Self Hosted:
         - Website:
