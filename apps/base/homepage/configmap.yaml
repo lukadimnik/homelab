@@ -50,6 +50,15 @@ data:
             description: Audiobook & podcast server
             ping: http://audiobookshelfhp.lukadimnik.com/
   widgets.yaml: |
+    - greeting:
+        text_size: xl
+        text: Welcome, Luka
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: long
+          timeStyle: short
+          hourCycle: h23
     - kubernetes:
         cluster:
           show: true
