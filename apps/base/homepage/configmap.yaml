@@ -30,30 +30,22 @@ data:
             icon: mdi-web
             href: https://lukadimnik.com/
             description: Personal website
-            widget:
-              type: ping
-              target: https://lukadimnik.com/
+            ping: https://lukadimnik.com/
         - Linkding:
             icon: linkding.png
             href: https://linkdinghp.lukadimnik.com/
             description: Bookmark manager
-            widget:
-              type: ping
-              target: https://linkdinghp.lukadimnik.com/
+            ping: https://linkdinghp.lukadimnik.com/
         - Grafana:
             icon: grafana.png
             href: http://grafana.lukadimnik.com/
             description: Metrics & dashboards
-            widget:
-              type: ping
-              target: http://grafana.lukadimnik.com/
+            ping: http://grafana.lukadimnik.com/
         - Audiobookshelf:
             icon: audiobookshelf.png
             href: http://audiobookshelfhp.lukadimnik.com/
             description: Audiobook & podcast server
-            widget:
-              type: ping
-              target: http://audiobookshelfhp.lukadimnik.com/
+            ping: http://audiobookshelfhp.lukadimnik.com/
   widgets.yaml: |
     - kubernetes:
         cluster:
