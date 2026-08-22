@@ -27,7 +27,7 @@ data:
   services.yaml: |
     - Self Hosted:
         - Website:
-            icon: si-home
+            icon: https://lukadimnik.com/favicon.ico
             href: https://lukadimnik.com/
             description: Personal website
         - Linkding:
