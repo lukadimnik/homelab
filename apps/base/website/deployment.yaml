@@ -18,7 +18,7 @@ spec:
         runAsGroup: 101 # user node group ID
       containers:
         - name: website
-          image: ghcr.io/lukadimnik/website:1.3.1
+          image: ghcr.io/lukadimnik/website:1.4.0
           ports:
             - containerPort: 80
               protocol: TCP
