@@ -13,10 +13,10 @@ spec:
       labels:
         app: postgres
     spec:
-      # securityContext:
-      #   fsGroup: 33 # www-data group ID
-      #   runAsUser: 33 # www-data user ID
-      #   runAsGroup: 33 # www-data group ID
+      securityContext:
+        fsGroup: 999 # postgres group ID
+        runAsUser: 999 # postgres user ID
+        runAsGroup: 999 # postgres group ID
       containers:
         - name: postgres
           image: postgres:18.6
