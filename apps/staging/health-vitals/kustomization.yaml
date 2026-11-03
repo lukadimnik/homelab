@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: health-vitals
 resources:
   - ../../base/health-vitals/
-  - postgres-credentials.yaml

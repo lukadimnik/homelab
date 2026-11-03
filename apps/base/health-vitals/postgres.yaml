@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: health-vitals-db
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-minimal-trixie
+  storage:
+    size: 1Gi
+  bootstrap:
+    initdb:
+      database: health_vitals
+      owner: health_vitals
