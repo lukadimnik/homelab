@@ -4,6 +4,7 @@ metadata:
   name: infrastructure-controllers
   namespace: flux-system
 spec:
+  wait: true
   interval: 1m0s
   # dependsOn:
   #   - name: infra-configs
@@ -18,4 +19,3 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-
