@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: health-vitals
 resources:
   - ../../base/health-vitals/
+  - google-oauth-credentials.yaml
