@@ -4,3 +4,4 @@ namespace: health-vitals
 resources:
   - ../../base/health-vitals/
   - google-oauth-credentials.yaml
+  - grafana-db-credentials.yaml

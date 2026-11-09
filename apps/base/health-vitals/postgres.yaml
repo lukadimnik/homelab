@@ -3,6 +3,14 @@ kind: Cluster
 metadata:
   name: health-vitals-db
 spec:
+  managed:
+    roles:
+      - name: grafana
+        ensure: present
+        login: true
+        inRoles: [pg_read_all_data]
+        passwordSecret:
+          name: grafana-db-credentials
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:18.6-minimal-trixie
   storage:
