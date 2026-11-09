@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: health-vitals-datasource
+    namespace: monitoring
+    labels:
+        grafana_datasource: "1"
+type: Opaque
+stringData:
+    health-vitals.yaml: ENC[AES256_GCM,data:FKQeKbEPZVRN8KSOzkNonV88wz6G5HEWCSWhQ1+FEBI0MuwtN/EFjwq4400xEkjl/W5+M9dgudOubn+loeY+S6HVh0nG6GfmlVI3JH43g8PeHlEKduhW11oWutfx34wYoTPnH+ZtQNEZfxUqsmsZrwfY70cdAkh0ShAEX2QpzplUUrOc8dYS7yMa4AGhVJNDKFyHvTohcOGW0e5Mz9Gbfctsl9oimJeo7aTOfBpO1iYrhHNS5mlv4/EFDd3G70uCh2rFnkqatVtEd4+iYD5h/ssdqYI+xSBLfHFsUXeiaYRIqDi7REslnDggyW+qiRqVp1SQdvgEWpwSej8QNjMoJPJZFhDP3zclPIhV9EmNGrMHy2ImbI3xpzCsjQ+wbzClyyiSirNSIEj0aJIoGwq9cDPY23RueeXndsOiKwYiKW1R8cwiJN6eE3cA40wwt3wKOOURIIIU117P1y5Y75C9ugH0wS31hrs6Umj47T9Kpc/83A==,iv:eOSp9QAark/EUuEy7CF43qRgf6nG3pTW6C3JPipQANc=,tag:QiXPl76df+7mrMJn97Ovnw==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBEcFFLTGF3d2p5anBjVVV3
+            RDhwMkZYMUYwWWs0WVgvQ0lZaUh2cTBSOG00Ck13U3JYdHpOZEh2aVdZTjEwSnpV
+            S0pQbUFTM1VQbXNURkx0ZStlYVZXdWMKLS0tIFhaWWZReCtHeEIyb2tZcHlkSy93
+            eVU1ZTZuNVI4bmxoSkE3aGorakFmTXMKK8Z5dWeuyGKGg7PEPVmdvjy46YSYghMn
+            nQ/JQY0/vyzlmQBQX16wrSEFMKsSAHYieI0lbThJKkSrPr1qdHZkxw==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1q0klae5fth9kw9s8gkycjmemr0l5y5rssm6vwzs7regh48vzxsdsyxhthd
+    encrypted_regex: ^(data|stringData)$
+    lastmodified: "2026-11-09T19:56:58Z"
+    mac: ENC[AES256_GCM,data:2cC6rEUeKJTAiN5dU/0eNbxMpSlSpWFvjCQQgLe7ISRkP8TyCtu02713tUtBJLGiSyBQ/m9OD/dlhwXd1tOFLq56WHNTOnmI3UPcDAai7nbKjZpF0rjfLJzADA1TJ9vgdat8QXa9oVVA3Uiia9GlQVtKyUIIaEEy/ZYGQE7Gjbg=,iv:ulLCc/XBEQtL0Imqd1ypZ8+obV/ZOGOQlaqn+ZOTSJc=,tag:dE5JleyU9In3Pe3QrNHknA==,type:str]
+    version: 3.13.3
