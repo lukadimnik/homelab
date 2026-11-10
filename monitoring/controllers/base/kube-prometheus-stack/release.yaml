@@ -33,7 +33,7 @@ spec:
       adminPassword: luka
       ingress:
         enabled: true
-        ingressClassname: traefik
+        ingressClassName: traefik
         hosts:
          - grafana.lukadimnik.com
         tls:
