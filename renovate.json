@@ -10,11 +10,22 @@
       "/\\.yaml$/"
     ]
   },
+  "customManagers": [
+    {
+      "description": "CloudNativePG Cluster images (spec.imageName), which the kubernetes manager doesn't detect",
+      "customType": "regex",
+      "managerFilePatterns": ["/\\.yaml$/"],
+      "matchStrings": [
+        "imageName:\\s*[\"']?(?<depName>[^\\s\"':]+):(?<currentValue>[^\\s\"'@]+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
   "packageRules": [
     {
       "description": "Postgres major upgrades change the on-disk format and need pg_upgrade or dump/restore, so only open them on manual approval",
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["postgres"],
+      "matchPackageNames": ["postgres", "ghcr.io/cloudnative-pg/postgresql"],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     }
