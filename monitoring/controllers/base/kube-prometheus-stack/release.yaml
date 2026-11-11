@@ -30,12 +30,13 @@ spec:
           kind: PrometheusRule
   values:
     grafana:
-      adminPassword: luka
+      admin:
+        existingSecret: grafana-admin
       ingress:
         enabled: true
         ingressClassName: traefik
         hosts:
-         - grafana.lukadimnik.com
+          - grafana.lukadimnik.com
         tls:
           - secretName: grafana-tls-secret
             hosts:
