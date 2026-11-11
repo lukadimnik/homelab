@@ -1,79 +1,71 @@
 # homelab
 
-GitOps configuration for my Kubernetes homelab, continuously reconciled by [Flux](https://fluxcd.io/).
+GitOps configuration for my Kubernetes homelab. [Flux](https://fluxcd.io/) continuously reconciles the cluster against this repo, so the repo is the single source of truth.
 
-## How it works
+## Overview
 
-Flux watches this repo and applies any changes to the cluster automatically — the repo is the source of truth. Secrets are encrypted in-place with [SOPS](https://github.com/getsops/sops) + [age](https://github.com/FiloSottile/age), so they're safe to commit.
+```mermaid
+flowchart LR
+  dev([git push]) --> repo[(GitHub: homelab)]
+  renovate[Renovate CronJob] -- dependency PRs --> repo
+  repo -- pulls --> flux[Flux]
 
-The cluster is split into three reconciliation domains, each driven by its own Flux `Kustomization` under `clusters/staging/`:
+  subgraph cluster[Kubernetes cluster]
+    flux --> infra[infrastructure<br/>CNPG, Renovate]
+    flux --> mon[monitoring<br/>kube-prometheus-stack]
+    infra -- dependsOn --> apps[apps]
+    flux --> apps
+    renovate
+  end
 
-- **apps** (`apps.yaml`) → workloads in `./apps/staging`
-- **infrastructure** (`infrastructure.yaml`) → cluster tooling in `./infrastructure/controllers/staging`
-- **monitoring** (`monitoring.yaml`) → the observability stack in `./monitoring/controllers/staging` and `./monitoring/configs/staging`
-
-Services are exposed over HTTPS through a [Traefik](https://traefik.io/) `Ingress`. A [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) (`cloudflared`) is also configured for inbound access without port forwarding, though it's currently disabled in the linkding overlay.
-
-## Layout
-
-Everything follows the same Kustomize pattern: environment-agnostic `base/` manifests, with a per-environment `staging/` overlay (currently the only environment) that layers in config and secrets.
-
+  user([Internet]) -- Cloudflare Tunnel --> apps
+  user -- Traefik Ingress --> apps
+  user -- Traefik Ingress --> mon
 ```
-apps/
-  base/        # environment-agnostic app manifests (Kustomize bases)
-  staging/     # app overlays + secrets
-infrastructure/
-  controllers/
-    base/      # cluster tooling bases (Renovate)
-    staging/   # tooling overlays
-monitoring/
-  controllers/
-    base/      # kube-prometheus-stack HelmRelease + repo
-    staging/   # overlay
-  configs/
-    staging/   # monitoring config + secrets (e.g. Grafana TLS)
-clusters/
-  staging/     # Flux entrypoint: GitRepository, sync config, per-domain Kustomizations
-    flux-system/   # bootstrapped Flux components (generated — do not edit)
-```
+
+- **Reconciliation** is split into Flux `Kustomization`s under `clusters/staging/`: `infrastructure-controllers`, `monitoring-controllers`, `monitoring-configs` and `apps`. `apps` waits for `infrastructure-controllers`, so operators and their CRDs (e.g. CloudNativePG) exist before the workloads that use them.
+- **Ingress** is either a per-app Cloudflare Tunnel (`cloudflared`, no port forwarding) or the cluster's Traefik ingress controller.
+- **Secrets** are committed encrypted with SOPS + age and decrypted by Flux in-cluster.
+
+> **Why "staging"?** It's currently the only environment. The layout follows the [Flux example repo](https://github.com/fluxcd/flux2-kustomize-helm-example), which leaves room for more clusters under `clusters/`.
+
+## Stack
+
+| Concern | Tool |
+|---------|------|
+| GitOps | [Flux](https://fluxcd.io/) + [Kustomize](https://kustomize.io/) |
+| Secrets | [SOPS](https://github.com/getsops/sops) + [age](https://github.com/FiloSottile/age) |
+| Ingress | [Traefik](https://traefik.io/), [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) |
+| Databases | [CloudNativePG](https://cloudnative-pg.io/) |
+| Monitoring | [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) (Prometheus, Alertmanager, Grafana) |
+| Dependency updates | [Renovate](https://docs.renovatebot.com/) (self-hosted) |
 
 ## Apps
 
-| App | Description | URL |
-|-----|-------------|-----|
-| [linkding](https://github.com/sissbruecker/linkding) | Self-hosted bookmark manager | `lds.lukadimnik.com` |
+| App | Description | Exposed via |
+|-----|-------------|-------------|
+| [linkding](https://github.com/sissbruecker/linkding) | Self-hosted bookmark manager | Cloudflare Tunnel |
+| [audiobookshelf](https://github.com/advplyr/audiobookshelf) | Audiobook and podcast server | Cloudflare Tunnel |
+| [homepage](https://github.com/gethomepage/homepage) | Dashboard linking the homelab services | Traefik Ingress |
+| website | Personal website | Cloudflare Tunnel |
+| health-vitals | Hourly job that syncs health data into Postgres, visualised in Grafana | Internal only |
 
-## Infrastructure
+## Repo layout
 
-| Component | Description |
-|-----------|-------------|
-| [Renovate](https://docs.renovatebot.com/) | Self-hosted dependency updates, run as an hourly `CronJob` in the `renovate` namespace |
+Each area uses environment-agnostic `base/` manifests plus a per-environment overlay that layers in config and secrets.
 
-[Renovate](https://docs.renovatebot.com/) keeps dependencies (container image tags, Helm charts, etc.) up to date by opening PRs against this repo. Instead of the hosted GitHub App, it runs in-cluster as a `CronJob` (`infrastructure/controllers/base/renovate/`) that scans `lukadimnik/homelab` every hour. Behaviour is configured two ways:
-
-- `renovate.json` — the per-repo config Renovate reads. It enables the Kubernetes manager so all `*.yaml` manifests are scanned for updatable images.
-- `renovate-configmap` / `renovate-container-env` — runtime settings (platform, git author) and the encrypted GitHub token Renovate uses to raise PRs.
-
-## Monitoring
-
-The [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm chart is deployed as a Flux `HelmRelease` (`monitoring/controllers/base/kube-prometheus-stack/`), providing Prometheus, Alertmanager, Grafana, and node-exporter in the `monitoring` namespace.
-
-| Component | URL |
-|-----------|-----|
-| Grafana | `grafana.lukadimnik.com` (Traefik ingress, TLS) |
-
-## Working with secrets
-
-Files are encrypted following the rules in `clusters/staging/.sops.yaml` (only `data`/`stringData` fields).
-
-```sh
-sops apps/staging/linkding/test-secret.yaml   # view / edit
 ```
-
-Flux decrypts them on the cluster using the `sops-age` secret.
-
-## Adding an app
-
-1. Add base manifests under `apps/base/<app>/`.
-2. Add a staging overlay under `apps/staging/<app>/` and reference it from the parent kustomization.
-3. Encrypt any secrets with SOPS, then commit — Flux takes it from there.
+apps/
+  base/          # app manifests (Kustomize bases)
+  staging/       # app overlays + secrets
+infrastructure/
+  controllers/
+    base/        # cluster tooling (CloudNativePG, Renovate)
+    staging/     # overlays
+monitoring/
+  controllers/   # kube-prometheus-stack HelmRelease
+  configs/       # Grafana datasources + secrets
+clusters/
+  staging/       # Flux entrypoint: per-domain Kustomizations
+    flux-system/ # generated by `flux bootstrap` — do not edit
+```
