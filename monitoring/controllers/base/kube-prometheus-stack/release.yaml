@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "93.1.2"
+      version: "93.2.0"
 
       # version: "58.x"
 
