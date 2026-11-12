@@ -1,3 +1,4 @@
 [tools]
+helm = "latest"
 kubectl = "latest"
 node = "26"
