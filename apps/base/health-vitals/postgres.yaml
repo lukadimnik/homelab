@@ -15,6 +15,13 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:18.7-minimal-trixie
   storage:
     size: 1Gi
+  # Continuous WAL archiving + base backups via the Barman Cloud plugin.
+  # The ObjectStore itself is environment-specific (apps/staging/health-vitals).
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: r2-object-storage
   bootstrap:
     initdb:
       database: health_vitals

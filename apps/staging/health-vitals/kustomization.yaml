@@ -5,3 +5,5 @@ resources:
   - ../../base/health-vitals/
   - google-oauth-credentials.yaml
   - grafana-db-credentials.yaml
+  - r2-backup-credentials.yaml
+  - object-storage.yaml

@@ -1,0 +1,20 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: r2-object-storage
+spec:
+  retentionPolicy: "30d"
+  configuration:
+    destinationPath: s3://homelab-pg-backups/health-vitals-db
+    endpointURL: https://de42e7ae11aa1200016451d63a58b58c.r2.cloudflarestorage.com
+    s3Credentials:
+      accessKeyId:
+        name: r2-backup-credentials
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: r2-backup-credentials
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip
+    data:
+      compression: gzip
