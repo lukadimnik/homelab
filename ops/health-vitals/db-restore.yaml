@@ -1,0 +1,24 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: health-vitals-db-restore-test
+  namespace: health-vitals
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-minimal-trixie
+  storage:
+    size: 1Gi
+  # No spec.plugins here on purpose: this cluster only READS the backup
+  # (via externalClusters below) and must not archive its own WAL to R2.
+  bootstrap:
+    recovery:
+      source: health-vitals-recovery
+  externalClusters:
+    - name: health-vitals-recovery
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: r2-object-storage
+          # The cluster that made the backup; backups live under
+          # <destinationPath>/<serverName>/ in the bucket.
+          serverName: health-vitals-db
